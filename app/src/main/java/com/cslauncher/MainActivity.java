@@ -1,1 +1,18 @@
+package com.cslauncher;
+import android.app.*;import android.os.*;import android.graphics.Color;import android.graphics.drawable.GradientDrawable;import android.view.*;import android.widget.*;
 
+public class MainActivity extends Activity{
+ LinearLayout root,content; int bg=Color.rgb(8,10,15),panel=Color.rgb(17,21,29),panel2=Color.rgb(25,31,42),text=Color.WHITE,muted=Color.rgb(155,165,180),accent=Color.rgb(91,140,255);
+ public void onCreate(Bundle b){super.onCreate(b);home();}
+ TextView t(String s,float z){TextView x=new TextView(this);x.setText(s);x.setTextColor(text);x.setTextSize(z);x.setPadding(18,8,18,8);x.setGravity(Gravity.CENTER_VERTICAL);return x;}
+ GradientDrawable g(int c,int r){GradientDrawable x=new GradientDrawable();x.setColor(c);x.setCornerRadius(r);return x;}
+ Button b(String s){Button x=new Button(this);x.setText(s);x.setTextColor(text);x.setTextSize(14);x.setAllCaps(false);x.setBackground(g(panel2,24));return x;}
+ void base(String title){root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setPadding(22,18,22,18);root.setBackgroundColor(bg);
+ LinearLayout bar=new LinearLayout(this);bar.setGravity(Gravity.CENTER_VERTICAL);TextView logo=t("CS",24);logo.setTypeface(null,1);bar.addView(logo,new LinearLayout.LayoutParams(60,58));bar.addView(t(title,20),new LinearLayout.LayoutParams(0,58,1));
+ Button set=b("⚙");set.setOnClickListener(v->settings());bar.addView(set,new LinearLayout.LayoutParams(70,58));root.addView(bar);
+ content=new LinearLayout(this);content.setOrientation(LinearLayout.VERTICAL);content.setPadding(0,12,0,0);root.addView(content,new LinearLayout.LayoutParams(-1,0,1));
+ LinearLayout nav=new LinearLayout(this);String[] ns={"⌂ Inicio","▣ Instancias","⚙ Ajustes"};for(String n:ns){Button x=b(n);x.setOnClickListener(v->{if(n.contains("Inicio"))home();else if(n.contains("Instancias"))instances();else settings();});nav.addView(x,new LinearLayout.LayoutParams(0,58,1));}root.addView(nav);setContentView(root);}
+ void home(){base("CS Launcher");LinearLayout h=new LinearLayout(this);h.setOrientation(LinearLayout.VERTICAL);h.setGravity(Gravity.CENTER);h.setBackground(g(panel,28));TextView a=t("CS LAUNCHER",30);a.setGravity(Gravity.CENTER);a.setTypeface(null,1);h.addView(a,new LinearLayout.LayoutParams(-1,60));TextView q=t("Tu launcher de Minecraft para Android",16);q.setGravity(Gravity.CENTER);q.setTextColor(muted);h.addView(q,new LinearLayout.LayoutParams(-1,48));Button p=b("▶  JUGAR");p.setTextSize(18);p.setBackground(g(accent,24));p.setOnClickListener(v->Toast.makeText(this,"El motor de Minecraft se añadirá en una próxima versión.",Toast.LENGTH_LONG).show());LinearLayout.LayoutParams z=new LinearLayout.LayoutParams(260,64);z.gravity=Gravity.CENTER;z.topMargin=24;h.addView(p,z);content.addView(h,new LinearLayout.LayoutParams(-1,-1));}
+ void instances(){base("Instancias");TextView h=t("INSTANCIAS",24);h.setTypeface(null,1);content.addView(h,new LinearLayout.LayoutParams(-1,58));TextView c=t("Minecraft 1.21.8\nVanilla • Perfil de ejemplo\n\nSistema de descarga y perfiles: V2.",16);c.setBackground(g(panel,24));content.addView(c,new LinearLayout.LayoutParams(-1,150));}
+ void settings(){base("Ajustes");TextView h=t("CONFIGURACIÓN",24);h.setTypeface(null,1);content.addView(h,new LinearLayout.LayoutParams(-1,58));String[] a={"RAM: Automática","Java: Detectar automáticamente","Renderer: Automático","Resolución: Nativa","Controles: Predeterminados"};for(String s:a){TextView x=t(s,16);x.setBackground(g(panel,18));LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,58);p.bottomMargin=8;content.addView(x,p);}}
+}
