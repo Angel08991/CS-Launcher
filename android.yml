@@ -34,40 +34,13 @@ jobs:
         with:
           gradle-version: '8.10.2'
 
-      - name: Extraer CS Launcher V1
-        run: |
-          ZIP_FILE=$(find . -maxdepth 1 -type f -name "CS-Launcher-V1.zip" | head -n 1)
-
-          if [ -z "$ZIP_FILE" ]; then
-            echo "ERROR: No se encontró CS-Launcher-V1.zip"
-            exit 1
-          fi
-
-          echo "ZIP encontrado: $ZIP_FILE"
-
-          rm -rf build-src
-          mkdir build-src
-
-          unzip -q "$ZIP_FILE" -d build-src
-
-          echo "Contenido:"
-          find build-src -maxdepth 3 -type f
-
-      - name: Preparar proyecto
-        run: |
-          cd build-src
-
-          echo "Proyecto Android:"
-          find . -maxdepth 3 -type f
-
       - name: Compilar APK
         run: |
-          cd build-src
           gradle assembleDebug --no-daemon
 
       - name: Buscar APK
         run: |
-          find build-src/app/build/outputs/apk/debug \
+          find app/build/outputs/apk/debug \
             -type f \
             -name "*.apk" \
             -print
@@ -76,6 +49,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: CS-Launcher-V1-APK
-          path: build-src/app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 7
